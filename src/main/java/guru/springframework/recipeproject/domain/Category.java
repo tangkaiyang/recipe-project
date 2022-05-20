@@ -1,7 +1,6 @@
 package guru.springframework.recipeproject.domain;
 
 import lombok.*;
-import sun.security.provider.PolicyParser;
 
 import javax.persistence.*;
 import java.util.HashSet;
