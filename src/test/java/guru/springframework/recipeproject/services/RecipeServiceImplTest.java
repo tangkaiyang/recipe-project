@@ -4,8 +4,11 @@ import guru.springframework.recipeproject.domain.Recipe;
 import guru.springframework.recipeproject.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +19,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by tky on 2022/05/20
  */
+@ExtendWith(MockitoExtension.class)
 class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
     // Mock依赖
@@ -25,7 +29,7 @@ class RecipeServiceImplTest {
     @BeforeEach
     void setUp() {
         // enable Mock
-        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(this);
         recipeService = new RecipeServiceImpl(recipeRepository);
     }
 
