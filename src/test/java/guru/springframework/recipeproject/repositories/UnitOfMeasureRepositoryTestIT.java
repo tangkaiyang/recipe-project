@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DataJpaTest
 class UnitOfMeasureRepositoryTestIT {
+
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 
