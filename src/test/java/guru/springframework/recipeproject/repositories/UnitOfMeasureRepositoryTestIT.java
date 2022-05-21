@@ -28,7 +28,7 @@ class UnitOfMeasureRepositoryTestIT {
 //    @DirtiesContext // cache remove
     void findByDescription() {
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-        assertEquals("Teaspoon1", uomOptional.get().getDescription());
+        assertEquals("Teaspoon", uomOptional.get().getDescription());
     }
 
     @Test
