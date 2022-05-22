@@ -55,7 +55,7 @@ class RecipeServiceImplTest {
     @Test
     void getById() {
         when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
-        Recipe returnRecipe = recipeService.getById(1L);
+        Recipe returnRecipe = recipeService.findById(1L);
         assertNotNull(returnRecipe,"No Recipe Returned!");
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository, never()).findAll();
