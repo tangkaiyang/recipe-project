@@ -31,7 +31,7 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Transient
     private Notes notes;
     @ManyToMany
     @JoinTable(name = "recipe_category",
