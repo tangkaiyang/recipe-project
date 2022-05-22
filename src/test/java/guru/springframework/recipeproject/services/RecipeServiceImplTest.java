@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,23 +22,23 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 class RecipeServiceImplTest {
+    @InjectMocks
     RecipeServiceImpl recipeService;
     // Mock依赖
     @Mock
     RecipeRepository recipeRepository;
+    Set<Recipe> recipeData = new HashSet<>();
+    Recipe recipe;
 
     @BeforeEach
     void setUp() {
-        // enable Mock
-//        MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipe = new Recipe();
+        recipe.setId(1L);
+        recipeData.add(recipe);
     }
 
     @Test
     void getRecipes() {
-        Recipe recipe = new Recipe();
-        HashSet<Recipe> recipeData = new HashSet<>();
-        recipeData.add(recipe);
 
         // Mock return
 
@@ -49,7 +50,15 @@ class RecipeServiceImplTest {
 
         // verify called times
         verify(recipeRepository, times(1)).findAll();
+    }
 
+    @Test
+    void getById() {
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+        Recipe returnRecipe = recipeService.getById(1L);
+        assertNotNull(returnRecipe,"No Recipe Returned!");
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
 
     }
 }
