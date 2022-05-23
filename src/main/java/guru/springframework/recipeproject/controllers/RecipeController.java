@@ -1,9 +1,8 @@
 package guru.springframework.recipeproject.controllers;
 
+
 import guru.springframework.recipeproject.commands.RecipeCommand;
-import guru.springframework.recipeproject.domain.Recipe;
 import guru.springframework.recipeproject.services.RecipeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +34,12 @@ public class RecipeController {
   @PostMapping(path = "recipe")
   public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
     RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
-    return "redirect:/recipe/" + savedCommand.getId() + "/show  ";
+    return "redirect:/recipe/" + savedCommand.getId() + "/show";
+  }
+
+  @RequestMapping("/recipe/{id}/delete")
+  public String deleteRecipe(@PathVariable String id) {
+    recipeService.deleteById(Long.valueOf(id));
+    return "redirect:/";
   }
 }
