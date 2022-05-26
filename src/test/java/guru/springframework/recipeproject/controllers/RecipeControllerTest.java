@@ -3,7 +3,6 @@ package guru.springframework.recipeproject.controllers;
 import guru.springframework.recipeproject.commands.RecipeCommand;
 import guru.springframework.recipeproject.domain.Recipe;
 import guru.springframework.recipeproject.services.RecipeService;
-import guru.springframework.recipeproject.services.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -89,8 +86,11 @@ class RecipeControllerTest {
   }
 
   @Test
-  void testDeleteRecipe() throws Exception {
-    mockMvc.perform(get("/recipe/1/delete")).andExpect(status().is3xxRedirection());
+  void testDeleteById() throws Exception {
+    mockMvc
+        .perform(get("/recipe/1/delete"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/"));
     verify(recipeService, times(1)).deleteById(anyLong());
   }
 }
