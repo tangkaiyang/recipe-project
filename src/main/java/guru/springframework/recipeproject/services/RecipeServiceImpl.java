@@ -64,7 +64,6 @@ public class RecipeServiceImpl implements RecipeService {
 
   @Override
   public RecipeCommand findCommandById(Long id) {
-    Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
-    return optionalRecipe.map(recipeCommandConverter::convert).orElse(null);
+    return recipeCommandConverter.convert(findById(id));
   }
 }

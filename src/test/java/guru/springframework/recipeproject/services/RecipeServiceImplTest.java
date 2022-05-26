@@ -37,8 +37,8 @@ class RecipeServiceImplTest {
   @Mock NotesCommandToNotes notesCommandToNotes;
   @Mock NotesToNotesCommand notesToNotesCommand;
 
-  @InjectMocks RecipeCommandToRecipe recipeCommandToRecipe;
-  @InjectMocks RecipeToRecipeCommand recipeToRecipeCommand;
+  @Mock RecipeCommandToRecipe recipeCommandToRecipe;
+  @Mock RecipeToRecipeCommand recipeToRecipeCommand;
   @InjectMocks IngredientToIngredientCommand ingredientToIngredientCommand;
   @InjectMocks IngredientCommandToIngredient ingredientCommandToIngredient;
   @InjectMocks RecipeServiceImpl recipeService;
@@ -127,12 +127,28 @@ class RecipeServiceImplTest {
   @Test
   // todo testSave
   void testSaveRecipeCommand() {
-//    RecipeCommand returnedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
-//    verify(recipeCommandToRecipe, times(1)).convert(any());
-//    verify(recipeToRecipeCommand, times(1)).convert(any());
-//    verify(recipeRepository, times(1)).save(any());
-    Recipe recipe1 = new Recipe();
-    recipe1.setId(1L);
-    assertEquals(recipe1, recipe);
+    when(recipeRepository.save(any())).thenReturn(recipe);
+    RecipeCommand returnedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+    verify(recipeCommandToRecipe, times(1)).convert(any());
+    verify(recipeToRecipeCommand, times(1)).convert(any());
+    verify(recipeRepository, times(1)).save(any());
+  }
+
+  @Test
+  void testDeleteById() {
+    recipeService.deleteById(1L);
+    verify(recipeRepository, times(1)).deleteById(1L);
+  }
+
+  @Test
+  void testFindCommandById() {
+    Optional<Recipe> optionalRecipe = Optional.of(recipe);
+    RecipeCommand expectRecipeCommand = recipeToRecipeCommand.convert(recipe);
+
+    when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+
+    RecipeCommand returnRecipeCommand  = recipeService.findCommandById(1L);
+    assertEquals(returnRecipeCommand, expectRecipeCommand);
+    verify(recipeRepository, times(1)).findById(anyLong());
   }
 }
