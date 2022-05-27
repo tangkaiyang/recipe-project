@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 class RecipeServiceImplTest {
   // Mock依赖
   @Mock RecipeRepository recipeRepository;
-  @Mock CategoryCommandToCategory categoryCommandToCategory;
+  CategoryCommandToCategory categoryCommandToCategory;
   @Mock CategoryToCategoryCommand categoryToCategoryCommand;
   @Mock UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
   @Mock UnitOfMeasureCommandToUnitOfMeasure unitOfMeasureCommandToUnitOfMeasure;
@@ -132,6 +132,17 @@ class RecipeServiceImplTest {
     verify(recipeCommandToRecipe, times(1)).convert(any());
     verify(recipeToRecipeCommand, times(1)).convert(any());
     verify(recipeRepository, times(1)).save(any());
+  }
+  @Test
+  void testSaveRecipeCommandAgain() {
+    RecipeCommand expectedRecipeCommand = new RecipeCommand();
+    when(recipeToRecipeCommand.convert(any())).thenReturn(expectedRecipeCommand);
+
+    RecipeCommand returnRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+    // 校验入参
+    // 校验调用次数
+    // 校验出参
+    assertNotNull(returnRecipeCommand);
   }
 
   @Test

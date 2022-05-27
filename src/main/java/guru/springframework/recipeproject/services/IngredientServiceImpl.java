@@ -43,9 +43,14 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
-   Ingredient savedIngredient = ingredientRepository.save(
-       Objects.requireNonNull(ingredientCommandToIngredient.convert(ingredientCommand)));
+   Ingredient savedIngredient = ingredientRepository.save(ingredientCommandToIngredient.convert(ingredientCommand));
    log.debug(savedIngredient.toString());
    return ingredientToIngredientCommand.convert(savedIngredient);
+  }
+
+  @Override
+  public IngredientCommand getIngredientCommandById(Long ingredientId) {
+    Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
+    return ingredientOptional.map(ingredientToIngredientCommand::convert).orElse(null);
   }
 }

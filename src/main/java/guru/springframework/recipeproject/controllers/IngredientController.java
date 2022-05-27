@@ -51,7 +51,8 @@ public class IngredientController {
   }
 
   @PostMapping("/recipe/{recipeId}/ingredient")
-  public String saveIngredient(@ModelAttribute IngredientCommand ingredientCommand) {
+  public String saveIngredient(
+      @PathVariable String recipeId, @ModelAttribute IngredientCommand ingredientCommand) {
     IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredientCommand);
     // todo fix recipeId is null
     log.debug("saved recipe id " + savedCommand.getRecipeId());
@@ -62,4 +63,26 @@ public class IngredientController {
         + savedCommand.getId()
         + "/show";
   }
+
+  @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
+  public String showIngredient(
+      @PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+    IngredientCommand returnedIngredientCommand =
+        ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
+    model.addAttribute("ingredient", returnedIngredientCommand);
+    log.debug(returnedIngredientCommand.toString());
+    return "recipe/ingredient/show";
+  }
+
+  @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
+  public String updateShowIngredient(
+      @PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+    IngredientCommand ingredientCommand = ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
+    model.addAttribute("ingredient", ingredientCommand);
+    log.debug(ingredientCommand.toString());
+    model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+    return "recipe/ingredient/ingredientform";
+  }
+
+
 }
