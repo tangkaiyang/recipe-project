@@ -8,6 +8,7 @@ import guru.springframework.recipeproject.converters.*;
 import guru.springframework.recipeproject.domain.*;
 import guru.springframework.recipeproject.repositories.RecipeRepository;
 import org.aspectj.weaver.ast.Not;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -133,17 +134,17 @@ class RecipeServiceImplTest {
     verify(recipeToRecipeCommand, times(1)).convert(any());
     verify(recipeRepository, times(1)).save(any());
   }
-  @Test
-  void testSaveRecipeCommandAgain() {
-    RecipeCommand expectedRecipeCommand = new RecipeCommand();
-    when(recipeToRecipeCommand.convert(any())).thenReturn(expectedRecipeCommand);
-
-    RecipeCommand returnRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
-    // 校验入参
-    // 校验调用次数
-    // 校验出参
-    assertNotNull(returnRecipeCommand);
-  }
+//  @Test
+//  void testSaveRecipeCommandAgain() {
+//    RecipeCommand expectedRecipeCommand = new RecipeCommand();
+//    when(recipeToRecipeCommand.convert(any())).thenReturn(expectedRecipeCommand);
+//
+//    RecipeCommand returnRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+//    // 校验入参
+//    // 校验调用次数
+//    // 校验出参
+//    assertNotNull(returnRecipeCommand);
+//  }
 
   @Test
   void testDeleteById() {

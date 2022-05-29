@@ -5,11 +5,14 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by tky on 2022/05/17
  */
-@Data
+@Setter
+@Getter
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Ingredient {

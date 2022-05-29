@@ -6,9 +6,12 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 /** Created by tky on 2022/05/17 */
-@Data
+@Getter
+@Setter
 @Entity
 public class Recipe {
   @Id
