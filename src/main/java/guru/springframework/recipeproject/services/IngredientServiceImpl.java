@@ -53,4 +53,9 @@ public class IngredientServiceImpl implements IngredientService {
     Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
     return ingredientOptional.map(ingredientToIngredientCommand::convert).orElse(null);
   }
+
+  @Override
+  public void deleteIngredientCommandById(Long ingredientId) {
+    ingredientRepository.deleteById(ingredientId);
+  }
 }

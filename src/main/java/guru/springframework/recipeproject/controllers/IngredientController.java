@@ -3,6 +3,7 @@ package guru.springframework.recipeproject.controllers;
 import guru.springframework.recipeproject.commands.IngredientCommand;
 import guru.springframework.recipeproject.commands.RecipeCommand;
 import guru.springframework.recipeproject.commands.UnitOfMeasureCommand;
+import guru.springframework.recipeproject.domain.Recipe;
 import guru.springframework.recipeproject.services.IngredientService;
 import guru.springframework.recipeproject.services.RecipeService;
 import guru.springframework.recipeproject.services.UnitOfMeasureService;
@@ -32,7 +33,7 @@ public class IngredientController {
   }
 
   @RequestMapping("/recipe/{recipeId}/ingredients")
-  public String getIngredientsByReipeId(@PathVariable String recipeId, Model model) {
+  public String getIngredientsByRecipeId(@PathVariable String recipeId, Model model) {
     model.addAttribute(
         "ingredients", ingredientService.findIngredientsByRecipeId(Long.valueOf(recipeId)));
     model.addAttribute("recipe", recipeService.findById(Long.valueOf(recipeId)));
@@ -77,12 +78,18 @@ public class IngredientController {
   @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
   public String updateShowIngredient(
       @PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
-    IngredientCommand ingredientCommand = ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
+    IngredientCommand ingredientCommand =
+        ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
     model.addAttribute("ingredient", ingredientCommand);
     log.debug(ingredientCommand.toString());
     model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
     return "recipe/ingredient/ingredientform";
   }
 
-
+  @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
+  public String deleteIngredient(
+      @PathVariable String recipeId, @PathVariable String ingredientId) {
+    ingredientService.deleteIngredientCommandById(Long.valueOf(ingredientId));
+    return "redirect:/recipe/" + recipeId + "/ingredients";
+  }
 }
