@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.transaction.Transactional;
+
 /** Created by tky on 2022/05/26 */
 @Slf4j
 @Controller
@@ -55,7 +57,6 @@ public class IngredientController {
   public String saveIngredient(
       @PathVariable String recipeId, @ModelAttribute IngredientCommand ingredientCommand) {
     IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredientCommand);
-    // todo fix recipeId is null
     log.debug("saved recipe id " + savedCommand.getRecipeId());
     log.debug("saved ingredient id " + savedCommand.getId());
     return "redirect:/recipe/"

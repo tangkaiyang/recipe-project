@@ -47,7 +47,7 @@ class IngredientControllerTest {
   Ingredient ingredient;
   Set<Ingredient> ingredients = new HashSet<>();
   IngredientCommand ingredientCommand;
-  @Mock IngredientToIngredientCommand ingredientToIngredientCommand;
+  IngredientToIngredientCommand ingredientToIngredientCommand;
   UnitOfMeasure unitOfMeasure;
   UnitOfMeasureCommand unitOfMeasureCommand;
   Set<UnitOfMeasureCommand> unitOfMeasureCommands = new HashSet<>();
@@ -67,7 +67,8 @@ class IngredientControllerTest {
     ingredient.setDescription("description");
     ingredient.setUom(unitOfMeasure);
     ingredient.setAmount(BigDecimal.valueOf(1.1D));
-
+    unitOfMeasureToUnitOfMeasureCommand = new UnitOfMeasureToUnitOfMeasureCommand();
+    ingredientToIngredientCommand = new IngredientToIngredientCommand(unitOfMeasureToUnitOfMeasureCommand);
     ingredientCommand = ingredientToIngredientCommand.convert(ingredient);
 
     unitOfMeasure = new UnitOfMeasure();
