@@ -1,5 +1,6 @@
 package guru.springframework.recipeproject.services;
 
+import guru.springframework.recipeproject.commands.IngredientCommand;
 import guru.springframework.recipeproject.converters.IngredientCommandToIngredient;
 import guru.springframework.recipeproject.converters.IngredientToIngredientCommand;
 import guru.springframework.recipeproject.converters.UnitOfMeasureCommandToUnitOfMeasure;
@@ -22,7 +23,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.ignoreStubs;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -74,19 +77,21 @@ class IngredientServiceImplTest {
     assertEquals(returnIngredients, recipe.getIngredients());
     verify(recipeService).findById(anyLong());
   }
-
+  // todo test when recipe id not exist
   @Test
-  void testGetRecipeIdNotExist() {
-    when(ingredientRepository.findById(anyLong())).thenReturn(Optional.of(new Ingredient()));
-    assertNull(ingredientService.getRecipeId(1L));
+  void testGetRecipeId() {
+    when(ingredientRepository.findById(anyLong())).thenReturn(Optional.of(ingredient));
+    assertNotNull(ingredientService.getRecipeId(1L));
     verify(ingredientRepository).findById(anyLong());
   }
 
   @Test
-  void testSaveIngredientCommand() {}
+  void testSaveIngredientCommand() {
+  }
 
   @Test
-  void testGetIngredientCommandById() {}
+  void testGetIngredientCommandById() {
+  }
 
   @Test
   void testDeleteIngredientCommandById() {}
