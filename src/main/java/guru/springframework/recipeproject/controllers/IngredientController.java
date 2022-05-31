@@ -69,6 +69,7 @@ public class IngredientController {
   @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
   public String showIngredient(
       @PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+    // todo modify getIngredientCommandById to getByRecipeIdAndIngredientId
     IngredientCommand returnedIngredientCommand =
         ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
     model.addAttribute("ingredient", returnedIngredientCommand);
@@ -79,6 +80,7 @@ public class IngredientController {
   @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
   public String updateShowIngredient(
       @PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+    // todo modify getIngredientCommandById to getByRecipeIdAndIngredientId
     IngredientCommand ingredientCommand =
         ingredientService.getIngredientCommandById(Long.valueOf(ingredientId));
     model.addAttribute("ingredient", ingredientCommand);
