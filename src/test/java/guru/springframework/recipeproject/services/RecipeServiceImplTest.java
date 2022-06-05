@@ -6,6 +6,7 @@ import guru.springframework.recipeproject.commands.NotesCommand;
 import guru.springframework.recipeproject.commands.RecipeCommand;
 import guru.springframework.recipeproject.converters.*;
 import guru.springframework.recipeproject.domain.*;
+import guru.springframework.recipeproject.exceptions.NotFoundException;
 import guru.springframework.recipeproject.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -122,6 +123,20 @@ class RecipeServiceImplTest {
   }
 
   @Test
+  public void getRecipeByIdNotFound() throws Exception {
+    Optional<Recipe> recipeOptional = Optional.empty();
+    when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+    NotFoundException notFoundException =
+        assertThrows(
+            NotFoundException.class,
+            () -> {
+              recipeService.findById(1L);
+            },
+            "Recipe Not Found");
+    assertEquals(notFoundException.getMessage(), "Recipe Not Found!");
+  }
+
+  @Test
   // todo testSave
   void testSaveRecipeCommand() {
     when(recipeRepository.save(any())).thenReturn(recipe);
@@ -130,17 +145,17 @@ class RecipeServiceImplTest {
     verify(recipeToRecipeCommand, times(1)).convert(any());
     verify(recipeRepository, times(1)).save(any());
   }
-//  @Test
-//  void testSaveRecipeCommandAgain() {
-//    RecipeCommand expectedRecipeCommand = new RecipeCommand();
-//    when(recipeToRecipeCommand.convert(any())).thenReturn(expectedRecipeCommand);
-//
-//    RecipeCommand returnRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
-//    // 校验入参
-//    // 校验调用次数
-//    // 校验出参
-//    assertNotNull(returnRecipeCommand);
-//  }
+  //  @Test
+  //  void testSaveRecipeCommandAgain() {
+  //    RecipeCommand expectedRecipeCommand = new RecipeCommand();
+  //    when(recipeToRecipeCommand.convert(any())).thenReturn(expectedRecipeCommand);
+  //
+  //    RecipeCommand returnRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+  //    // 校验入参
+  //    // 校验调用次数
+  //    // 校验出参
+  //    assertNotNull(returnRecipeCommand);
+  //  }
 
   @Test
   void testDeleteById() {
@@ -155,7 +170,7 @@ class RecipeServiceImplTest {
 
     when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
 
-    RecipeCommand returnRecipeCommand  = recipeService.findCommandById(1L);
+    RecipeCommand returnRecipeCommand = recipeService.findCommandById(1L);
     assertEquals(returnRecipeCommand, expectRecipeCommand);
     verify(recipeRepository, times(1)).findById(anyLong());
   }
