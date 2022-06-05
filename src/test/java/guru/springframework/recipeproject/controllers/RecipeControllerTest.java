@@ -38,7 +38,10 @@ class RecipeControllerTest {
     returnedRecipe.setId(1L);
     recipeCommand = new RecipeCommand();
     recipeCommand.setId(1L);
-    mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    mockMvc =
+        MockMvcBuilders.standaloneSetup(controller)
+            .setControllerAdvice(new ControllerExceptionHandler())
+            .build();
   }
 
   @Test
@@ -59,6 +62,15 @@ class RecipeControllerTest {
         .andExpect(status().isOk())
         .andExpect(model().attributeExists("recipe"))
         .andExpect(view().name("recipe/recipeform"));
+  }
+
+  @Test
+  void testPostNewRecipeFormValidationFail() throws Exception {
+    mockMvc
+        .perform(post("/recipe").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("id", ""))
+        .andExpect(status().isBadRequest());
+
+    verify(recipeService, times(0)).saveRecipeCommand(any());
   }
 
   @Test
@@ -101,5 +113,14 @@ class RecipeControllerTest {
         .perform(get("/recipe/1/show"))
         .andExpect(status().isNotFound())
         .andExpect(view().name("recipe/404error"));
+  }
+
+  @Test
+  void testGetRecipeNumberFormatException() throws Exception {
+    when(recipeService.findById(anyLong())).thenThrow(NumberFormatException.class);
+    mockMvc
+        .perform(get("/recipe/1/show"))
+        .andExpect(status().isBadRequest())
+        .andExpect(view().name("recipe/400error"));
   }
 }
