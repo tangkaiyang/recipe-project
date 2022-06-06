@@ -3,10 +3,13 @@ package guru.springframework.recipeproject.commands;
 import guru.springframework.recipeproject.domain.Difficulty;
 import java.util.HashSet;
 import java.util.Set;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 /** Created by tky on 2022/05/22 */
